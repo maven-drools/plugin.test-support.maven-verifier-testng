@@ -7,7 +7,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,8 +26,10 @@ import org.testng.ITestResult;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,8 +51,16 @@ public abstract class MavenVerifierTest implements IHookable {
     File testDirectory;
     Verifier verifier;
     try {
+      final File settingsFile = obtainSettingsFile(testMethod);
+
       testDirectory = ResourceExtractor.simpleExtractResources(getClass(), testDirectoryName);
-      verifier = new Verifier(testDirectory.getAbsolutePath());
+      if (settingsFile != null) {
+        verifier = createVerifier(testDirectory.getAbsolutePath(), settingsFile.getAbsolutePath());
+      }
+      else {
+        verifier = createVerifier(testDirectory.getAbsolutePath());
+      }
+
       String[] goals = obtainGoalsToExecute(testMethod);
       assertThat(goals.length).as("Number of goals to execute").isGreaterThan(0);
       for (String goal : goals) {
@@ -64,6 +74,16 @@ public abstract class MavenVerifierTest implements IHookable {
     catch (VerificationException e) {
       fail("Unable to construct Maven Verifier from project in directory " + testDirectoryName + ".", e);
     }
+  }
+
+  private Verifier createVerifier(String testDirectoryName) throws VerificationException {
+    return new Verifier(testDirectoryName);
+  }
+
+  private Verifier createVerifier(String testDirectoryName, String settingsFileName) throws VerificationException {
+    final Verifier verifier = new Verifier(testDirectoryName, settingsFileName);
+    verifier.setCliOptions(Arrays.asList("-s ", settingsFileName));
+    return verifier;
   }
 
   private void injectVerifierInstance(Verifier verifier, Object testInstance) {
@@ -103,6 +123,35 @@ public abstract class MavenVerifierTest implements IHookable {
                                          "test method or test class. Don't know where to take project definition from.");
     }
     return annotationOnClass.value();
+  }
+
+  private File obtainSettingsFile(Method testMethod) throws IOException {
+    final Class<?> declaringClass = testMethod.getDeclaringClass();
+    final SettingsFile annotationOnClass = declaringClass.getAnnotation(SettingsFile.class);
+    if (annotationOnClass != null) {
+      return ResourceExtractor.simpleExtractResources(getClass(), annotationOnClass.value());
+    }
+    final SettingsFile annotationOnMethod = testMethod.getAnnotation(SettingsFile.class);
+    if (annotationOnMethod != null) {
+      return ResourceExtractor.simpleExtractResources(getClass(), annotationOnMethod.value());
+    }
+    final Annotation[] allAnnotationsOnClass = declaringClass.getAnnotations();
+    for (Annotation annotation : allAnnotationsOnClass) {
+      final Class<? extends Annotation> annotationType = annotation.annotationType();
+      if ( annotationType.isAnnotationPresent(SettingsFile.class)) {
+        SettingsFile annotationOnMetaAnnotation = annotationType.getAnnotation(SettingsFile.class);
+        return ResourceExtractor.simpleExtractResources(annotationType, annotationOnMetaAnnotation.value());
+      }
+    }
+    final Annotation[] allAnnotationsOnMethod = testMethod.getAnnotations();
+    for (Annotation annotation : allAnnotationsOnMethod) {
+      final Class<? extends Annotation> annotationType = annotation.annotationType();
+      if ( annotationType.isAnnotationPresent(SettingsFile.class)) {
+        SettingsFile annotationOnMetaAnnotation = annotationType.getAnnotation(SettingsFile.class);
+        return ResourceExtractor.simpleExtractResources(annotationType, annotationOnMetaAnnotation.value());
+      }
+    }
+    return null;
   }
 
   private String[] obtainGoalsToExecute(Method testMethod) {
