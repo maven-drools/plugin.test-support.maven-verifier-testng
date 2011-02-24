@@ -138,7 +138,7 @@ public abstract class MavenVerifierTest implements IHookable {
     final Annotation[] allAnnotationsOnClass = declaringClass.getAnnotations();
     for (Annotation annotation : allAnnotationsOnClass) {
       final Class<? extends Annotation> annotationType = annotation.annotationType();
-      if ( annotationType.isAnnotationPresent(SettingsFile.class)) {
+      if (annotationType.isAnnotationPresent(SettingsFile.class)) {
         SettingsFile annotationOnMetaAnnotation = annotationType.getAnnotation(SettingsFile.class);
         return ResourceExtractor.simpleExtractResources(annotationType, annotationOnMetaAnnotation.value());
       }
@@ -146,7 +146,7 @@ public abstract class MavenVerifierTest implements IHookable {
     final Annotation[] allAnnotationsOnMethod = testMethod.getAnnotations();
     for (Annotation annotation : allAnnotationsOnMethod) {
       final Class<? extends Annotation> annotationType = annotation.annotationType();
-      if ( annotationType.isAnnotationPresent(SettingsFile.class)) {
+      if (annotationType.isAnnotationPresent(SettingsFile.class)) {
         SettingsFile annotationOnMetaAnnotation = annotationType.getAnnotation(SettingsFile.class);
         return ResourceExtractor.simpleExtractResources(annotationType, annotationOnMetaAnnotation.value());
       }
@@ -166,5 +166,9 @@ public abstract class MavenVerifierTest implements IHookable {
       goals.addAll(Arrays.asList(annotationOnMethod.value()));
     }
     return goals.toArray(new String[goals.size()]);
+  }
+
+  protected File expectedOutputFile(Verifier verifier, String relativeFileName) {
+    return new File(verifier.getBasedir() + File.separator + relativeFileName);
   }
 }
