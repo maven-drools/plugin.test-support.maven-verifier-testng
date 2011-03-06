@@ -28,6 +28,7 @@
 
   <groupId>de.lightful.maven.plugins</groupId>
   <artifactId>maven-verifier-testng</artifactId>
+  <version>${parent.version}</version>
   <packaging>jar</packaging>
 
   <name>Maven Drools Plugin :: Maven Verifier Wrapper</name>
