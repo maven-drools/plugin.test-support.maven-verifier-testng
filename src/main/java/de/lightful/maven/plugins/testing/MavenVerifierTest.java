@@ -42,7 +42,7 @@ public abstract class MavenVerifierTest implements IHookable {
 
   private String mavenRepositoryPath;
 
-  @Parameters("repository.integrationtest")
+  @Parameters("repository.integrationtests")
   @BeforeMethod
   public void configureLocalMavenRepository(String mavenRepositoryPath) {
     this.mavenRepositoryPath = mavenRepositoryPath;
