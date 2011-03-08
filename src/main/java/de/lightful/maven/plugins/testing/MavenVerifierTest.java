@@ -23,13 +23,14 @@ import org.apache.maven.it.util.ResourceExtractor;
 import org.testng.IHookCallBack;
 import org.testng.IHookable;
 import org.testng.ITestResult;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +39,14 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
 public abstract class MavenVerifierTest implements IHookable {
+
+  private String mavenRepositoryPath;
+
+  @Parameters("repository.integrationtest")
+  @BeforeMethod
+  public void configureLocalMavenRepository(String mavenRepositoryPath) {
+    this.mavenRepositoryPath = mavenRepositoryPath;
+  }
 
   public void run(IHookCallBack callBack, ITestResult testResult) {
     final Method testMethod = testResult.getMethod().getMethod();
@@ -60,6 +69,7 @@ public abstract class MavenVerifierTest implements IHookable {
       else {
         verifier = createVerifier(testDirectory.getAbsolutePath());
       }
+      verifier.setLocalRepo(mavenRepositoryPath);
 
       String[] goals = obtainGoalsToExecute(testMethod);
       assertThat(goals.length).as("Number of goals to execute").isGreaterThan(0);
