@@ -26,7 +26,7 @@
     <version>0.0.8-SNAPSHOT</version>
   </parent>
 
-  <groupId>de.lightful.maven.plugins</groupId>
+  <groupId>de.lightful.maven.plugins.drools</groupId>
   <artifactId>maven-verifier-testng</artifactId>
   <version>0.0.8-SNAPSHOT</version>
   <packaging>jar</packaging>
