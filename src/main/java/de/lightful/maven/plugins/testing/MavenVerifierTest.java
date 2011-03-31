@@ -63,13 +63,7 @@ public abstract class MavenVerifierTest implements IHookable {
       final File settingsFile = obtainSettingsFile(testMethod);
 
       testDirectory = ResourceExtractor.simpleExtractResources(getClass(), testDirectoryName);
-      if (settingsFile != null) {
-        verifier = createVerifier(testDirectory.getAbsolutePath(), settingsFile.getAbsolutePath());
-      }
-      else {
-        verifier = createVerifier(testDirectory.getAbsolutePath());
-      }
-      verifier.setLocalRepo(mavenRepositoryPath);
+      verifier = configureVerifier(testMethod, testDirectory, settingsFile);
 
       String[] goals = obtainGoalsToExecute(testMethod);
       assertThat(goals.length).as("Number of goals to execute").isGreaterThan(0);
@@ -84,6 +78,19 @@ public abstract class MavenVerifierTest implements IHookable {
     catch (VerificationException e) {
       fail("Unable to construct Maven Verifier from project in directory " + testDirectoryName + ".", e);
     }
+  }
+
+  private Verifier configureVerifier(Method testMethod, File testDirectory, File settingsFile) throws VerificationException {
+    Verifier verifier;
+    if (settingsFile != null) {
+      verifier = createVerifier(testDirectory.getAbsolutePath(), settingsFile.getAbsolutePath());
+    }
+    else {
+      verifier = createVerifier(testDirectory.getAbsolutePath());
+    }
+    verifier.setLocalRepo(mavenRepositoryPath);
+    verifier.setMavenDebug(obtainMavenDebugFlag(testMethod));
+    return verifier;
   }
 
   private Verifier createVerifier(String testDirectoryName) throws VerificationException {
@@ -133,6 +140,16 @@ public abstract class MavenVerifierTest implements IHookable {
                                          "test method or test class. Don't know where to take project definition from.");
     }
     return annotationOnClass.value();
+  }
+
+  private boolean obtainMavenDebugFlag(Method testMethod) {
+    final MavenDebug annotationOnMethod = testMethod.getAnnotation(MavenDebug.class);
+    if (annotationOnMethod != null) {
+      return true;
+    }
+    final Class<?> declaringClass = testMethod.getDeclaringClass();
+    final MavenDebug annotationOnClass = declaringClass.getAnnotation(MavenDebug.class);
+    return annotationOnClass != null;
   }
 
   private File obtainSettingsFile(Method testMethod) throws IOException {
