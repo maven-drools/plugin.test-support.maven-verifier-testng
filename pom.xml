@@ -22,12 +22,12 @@
   <parent>
     <groupId>de.lightful.maven.plugins.drools</groupId>
     <artifactId>project-parent</artifactId>
-    <version>0.0.12</version>
+    <version>0.0.13-SNAPSHOT</version>
   </parent>
 
   <groupId>de.lightful.maven.plugins.drools</groupId>
   <artifactId>maven-verifier-testng</artifactId>
-  <version>0.0.12</version>
+  <version>0.0.13-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Maven Drools Plugin :: Maven Verifier Wrapper</name>
