@@ -88,7 +88,7 @@ public abstract class MavenVerifierTest implements IHookable {
     else {
       verifier = createVerifier(testDirectory.getAbsolutePath());
     }
-    verifier.setLocalRepo("\"" + mavenRepositoryPath + "\"");
+    verifier.setLocalRepo(mavenRepositoryPath);
     verifier.setMavenDebug(obtainMavenDebugFlag(testMethod));
     return verifier;
   }
