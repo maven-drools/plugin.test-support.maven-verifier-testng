@@ -1,4 +1,4 @@
-/*
+/*******************************************************************************
  * Copyright (c) 2009-2011 Ansgar Konermann
  *
  * This file is part of the Maven 3 Drools Plugin.
@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 package de.lightful.maven.plugins.testing;
 
 import org.apache.maven.it.VerificationException;
@@ -49,7 +49,7 @@ public abstract class MavenVerifierTest implements IHookable {
   }
 
   public void run(IHookCallBack callBack, ITestResult testResult) {
-    final Method testMethod = testResult.getMethod().getMethod();
+    final Method testMethod = testResult.getMethod().getConstructorOrMethod().getMethod();
     final Object testInstance = testResult.getInstance();
     executeMavenGoals(testMethod, testInstance);
     callBack.runTestMethod(testResult);
