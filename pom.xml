@@ -33,6 +33,11 @@
   <name>Maven Drools Plugin :: Test Support :: Maven Verifier for TestNG</name>
   <description>TestNG wrapper around maven-verifier, supporting integrational tests of maven plugins.</description>
 
+  <scm>
+    <connection>scm:git:git@github.com:maven-drools/plugin.test-support.maven-verifier-testng.git</connection>
+    <developerConnection>scm:git:git@github.com:maven-drools/plugin.test-support.maven-verifier-testng.git</developerConnection>
+  </scm>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
