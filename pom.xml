@@ -21,27 +21,43 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>de.lightful.maven.drools</groupId>
-    <artifactId>project-parent</artifactId>
-    <version>0.0.16-SNAPSHOT</version>
+    <groupId>de.lightful.poms</groupId>
+    <artifactId>java-library</artifactId>
+    <version>3</version>
   </parent>
 
-  <groupId>de.lightful.maven.drools</groupId>
+  <groupId>de.lightful.maven.drools.plugin.testsupport</groupId>
   <artifactId>maven-verifier-testng</artifactId>
-  <version>0.0.16-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <version>0.1.0-SNAPSHOT</version>
 
-  <name>Maven Drools Plugin :: Maven Verifier Wrapper</name>
+  <name>Maven Drools Plugin :: Test Support :: Maven Verifier for TestNG</name>
   <description>TestNG wrapper around maven-verifier, supporting integrational tests of maven plugins.</description>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>de.lightful.maven.drools.plugin.poms</groupId>
+        <artifactId>external-dependencies</artifactId>
+        <version>0.1.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
+      <version>[6.2]</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
+      <!-- "private" dependency: used in implementation only -->
       <groupId>org.easytesting</groupId>
       <artifactId>fest-assert</artifactId>
+      <version>[1.4]</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.shared</groupId>
