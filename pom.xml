@@ -27,7 +27,7 @@
 
   <groupId>de.lightful.maven.drools.plugin.test-support</groupId>
   <artifactId>maven-verifier-testng</artifactId>
-  <version>0.1.4-SNAPSHOT</version>
+  <version>0.1.4</version>
 
   <name>Maven Drools Support :: Plugin :: Test Support :: Maven Verifier for TestNG</name>
   <description>TestNG wrapper around maven-verifier, supporting integrational tests of maven plugins.</description>
