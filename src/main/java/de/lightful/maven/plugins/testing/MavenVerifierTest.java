@@ -41,12 +41,14 @@ import static org.fest.assertions.Fail.fail;
 
 public abstract class MavenVerifierTest implements IHookable {
 
-  private String mavenRepositoryPath;
+  private String integrationTestRepositoryPath;
+  private String deploymentTestRepositoryUrl;
 
-  @Parameters("repository.location.integrationtest")
+  @Parameters({"repository.location.integrationtest", "repository.url.deploymenttest"})
   @BeforeMethod
-  public void configureLocalMavenRepository(String mavenRepositoryPath) {
-    this.mavenRepositoryPath = mavenRepositoryPath;
+  public void configureLocalMavenRepository(String integrationTestRepositoryPath, String deploymentTestRepositoryUrl) {
+    this.integrationTestRepositoryPath = integrationTestRepositoryPath;
+    this.deploymentTestRepositoryUrl = deploymentTestRepositoryUrl;
   }
 
   public void run(IHookCallBack callBack, ITestResult testResult) {
@@ -89,7 +91,8 @@ public abstract class MavenVerifierTest implements IHookable {
     else {
       verifier = createVerifier(testDirectory.getAbsolutePath());
     }
-    verifier.setLocalRepo(mavenRepositoryPath);
+    verifier.setLocalRepo(integrationTestRepositoryPath);
+    verifier.setSystemProperty("repository.url.deploymenttest", deploymentTestRepositoryUrl);
     verifier.setMavenDebug(obtainMavenDebugFlag(testMethod));
     return verifier;
   }
