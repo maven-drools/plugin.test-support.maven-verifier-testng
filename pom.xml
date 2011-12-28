@@ -27,7 +27,7 @@
 
   <groupId>de.lightful.maven.testing</groupId>
   <artifactId>maven-verifier-testng</artifactId>
-  <version>0.1.12</version>
+  <version>0.1.13-SNAPSHOT</version>
 
   <name>Maven Test Support :: Maven Verifier for TestNG</name>
   <description>TestNG wrapper around maven-verifier, supporting integrational tests of maven plugins.</description>
