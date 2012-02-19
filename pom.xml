@@ -22,7 +22,7 @@
   <parent>
     <groupId>de.lightful.poms</groupId>
     <artifactId>java-library</artifactId>
-    <version>8</version>
+    <version>9</version>
   </parent>
 
   <groupId>de.lightful.maven.testing</groupId>
@@ -50,7 +50,7 @@
       <dependency>
         <groupId>de.lightful.maven.drools.plugin.dependency-management</groupId>
         <artifactId>external-dependencies</artifactId>
-        <version>0.5.4</version>
+        <version>0.5.5</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
