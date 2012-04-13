@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2009-2011 Ansgar Konermann
+  ~ Copyright (c) 2009-2012 Ansgar Konermann
   ~
   ~ This file is part of the "Maven 3 Drools Support" Package.
   ~
@@ -22,7 +22,7 @@
   <parent>
     <groupId>de.lightful.poms</groupId>
     <artifactId>java-library</artifactId>
-    <version>9</version>
+    <version>11</version>
   </parent>
 
   <groupId>de.lightful.maven.testing</groupId>
@@ -50,7 +50,7 @@
       <dependency>
         <groupId>de.lightful.maven.drools.plugin.dependency-management</groupId>
         <artifactId>external-dependencies</artifactId>
-        <version>0.5.5</version>
+        <version>0.5.6</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>

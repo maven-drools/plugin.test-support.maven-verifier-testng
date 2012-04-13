@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009-2011 Ansgar Konermann
+ * Copyright (c) 2009-2012 Ansgar Konermann
  *
  * This file is part of the "Maven 3 Drools Support" Package.
  *
